@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 
 // our file
+const db = require('./data/database');
 const authRoutes = require('./routes/auth-routes');
 
 // express
@@ -21,4 +22,9 @@ app.use(authRoutes);
 
 
 // server
-app.listen(3000);
+db.connectToDatabase()
+  .then(() => app.listen(3000))
+  .catch((err) => {
+    console.log('Failed to connect to the database');
+    console.log(err);
+  })
