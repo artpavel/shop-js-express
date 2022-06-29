@@ -1,14 +1,14 @@
 const mongodb = require('mongodb');
-
 const MongoClient = mongodb.MongoClient;
+const initial = require('../config/initial')
 
 let database;
 
 async function connectToDatabase() {
   const client = await MongoClient.connect(
-    'mongodb://localhost:27017'
+    initial.DB_URL
   );
-  database = client.db('online-shop');
+  database = client.db(initial.DATABASE);
 }
 
 function getDb() {

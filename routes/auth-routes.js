@@ -8,10 +8,11 @@ const router = express.Router();
 
 // signup
 router.get('/signup', authController.getSignup);
-router.post('/signup', authController.signup)
+router.post('/signup', authController.signup);
 
 // login
 router.get('/login', authController.getLogin);
+router.post('/login', authController.login);
 
 
 module.exports = router;

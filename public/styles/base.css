@@ -41,6 +41,10 @@ html {
   --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+.mb{
+  margin-bottom: 2rem;
+}
+
 body {
   background-color: var(--color-gray-500);
   color: var(--color-gray-100);
