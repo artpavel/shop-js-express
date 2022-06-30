@@ -45,6 +45,10 @@ html {
   margin-bottom: 2rem;
 }
 
+.inline-block{
+  display: inline-block;
+}
+
 body {
   background-color: var(--color-gray-500);
   color: var(--color-gray-100);
@@ -84,6 +88,16 @@ a {
 .btn:active {
   background-color: var(--color-primary-700);
   border-color: var(--color-primary-700);
+}
+
+.btn-alt {
+  background-color: transparent;
+  color: var(--color-primary-500);
+}
+
+.btn-alt:hover,
+.btn-alt:active {
+  background-color: var(--color-primary-500-bg);
 }
 
 .alert {

@@ -15,6 +15,7 @@ const errorHandleMiddleware = require('./middlewares/error-handler');
 const authRoutes = require('./routes/auth-routes');
 const productsRoutes = require('./routes/products-routes');
 const baseRoutes = require('./routes/base-routes');
+const adminRoutes = require('./routes/admin-routes');
 
 
 // express
@@ -40,6 +41,7 @@ app.use(checkAuthStatusMiddleware);
 app.use(baseRoutes);
 app.use(authRoutes);
 app.use(productsRoutes);
+app.use('/admin', adminRoutes);
 
 // errors
 app.use(errorHandleMiddleware);
