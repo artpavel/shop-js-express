@@ -25,8 +25,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// css and js
+// css, js, images
 app.use(express.static('public'));
+app.use('/products/assets', express.static('product-data'));
 // request body
 app.use(express.urlencoded({ extended: false }));
 
