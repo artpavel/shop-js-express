@@ -1,8 +1,5 @@
-/**
- * for admin create product
- * */
-const db = require('../data/database');
 const mongodb = require('mongodb');
+const db = require('../data/database');
 
 class Product {
   constructor(productData) {
@@ -11,14 +8,13 @@ class Product {
     this.price = +productData.price;
     this.description = productData.description;
     this.image = productData.image; // the name of the image file
-    this.imagePath = `product-data/images/${ productData.image }`;
-    this.imageUrl = `/products/assets/images/${ productData.image }`;
+    this.updateImageData();
     if (productData._id) {
       this.id = productData._id.toString();
     }
   }
 
-  // for edit product admin
+  // for edit product
   static async findById(productId) {
     let prodId;
     try {
@@ -41,24 +37,59 @@ class Product {
     return new Product(product);
   }
 
-  // show products in panel admin
+  // all products on page admin
   static async findAll() {
     const products = await db.getDb().collection('products').find().toArray();
 
-    return products.map(productDocument => new Product(productDocument));
+    return products.map(function (productDocument) {
+      return new Product(productDocument);
+    });
   }
 
-  // add in the database
+  // for edit
+  updateImageData() {
+    this.imagePath = `product-data/images/${ this.image }`;
+    this.imageUrl = `/products/assets/images/${ this.image }`;
+  }
+
+  // for edit
+  replaceImage(newImage) {
+    this.image = newImage;
+    this.updateImageData();
+  }
+
+  // save in the database
   async save() {
     const productData = {
       title: this.title,
       summary: this.summary,
       price: this.price,
       description: this.description,
-      image: this.image
+      image: this.image,
     };
 
-    await db.getDb().collection('products').insertOne(productData);
+    if (this.id) {
+      const productId = new mongodb.ObjectId(this.id);
+
+      if (!this.image) {
+        delete productData.image;
+      }
+
+      // if edit
+      await db.getDb().collection('products').updateOne(
+        { _id: productId },
+        { $set: productData }
+      );
+    } else {
+      // new product
+      await db.getDb().collection('products').insertOne(productData);
+    }
+  }
+
+  // delete product
+  remove() {
+    const productId = new mongodb.ObjectId(this.id);
+    return db.getDb().collection('products').deleteOne({ _id: productId });
   }
 }
 

@@ -62,6 +62,19 @@ const updateProduct = async (req, res, next) => {
   res.redirect('/admin/products');
 };
 
+// delete product
+const deleteProduct = async (req, res, next) => {
+  let product;
+  try {
+    product = await Product.findById(req.params.id);
+    await product.remove();
+  } catch (error) {
+    return next(error);
+  }
+
+  res.json({message: 'Deleted product'});
+};
+
 
 
 module.exports = {
@@ -69,5 +82,6 @@ module.exports = {
   getNewProduct,
   createNewProduct,
   getUpdateProduct,
-  updateProduct
+  updateProduct,
+  deleteProduct
 };
