@@ -43,15 +43,21 @@ const signup = async (req, res, next) => {
       req.body.street,
       req.body.postal,
       req.body.city
-    ) || !validation.emailIsConfirmed(req.body.email, req.body['confirm-email'])
+    ) ||
+    !validation.emailIsConfirmed(req.body.email, req.body['confirm-email'])
   ) {
     // show success or not
-    sessionFlash.flashDataToSession(req, {
-      errorMessage: 'Password must be 6 character, postal code must be 5 characters',
-      ...enteredData,
-    }, () => {
-      res.redirect('/signup');
-    });
+    sessionFlash.flashDataToSession(
+      req,
+      {
+        errorMessage:
+          'Password must be 6 character, postal code must be 5 characters',
+        ...enteredData,
+      },
+      () => {
+        res.redirect('/signup');
+      }
+    );
     return;
   }
 
@@ -69,7 +75,9 @@ const signup = async (req, res, next) => {
     const existsAlready = await user.existsAlready();
 
     if (existsAlready) {
-      sessionFlash.flashDataToSession(req, {
+      sessionFlash.flashDataToSession(
+        req,
+        {
           errorMessage: 'User exists already! Try logging in instead!',
           ...enteredData,
         },
@@ -79,7 +87,6 @@ const signup = async (req, res, next) => {
       );
       return;
     }
-
 
     await user.signup();
   } catch (error) {
@@ -130,7 +137,9 @@ const login = async (req, res, next) => {
   }
 
   // check password
-  const passwordIsCorrect = await user.hasMatchingPassword(existingUser.password);
+  const passwordIsCorrect = await user.hasMatchingPassword(
+    existingUser.password
+  );
   if (!passwordIsCorrect) {
     sessionFlash.flashDataToSession(req, sessionErrorData, () => {
       res.redirect('/login');
@@ -142,7 +151,6 @@ const login = async (req, res, next) => {
   authUtil.createUserSession(req, existingUser, () => {
     res.redirect('/');
   });
-
 };
 
 // logout
@@ -156,5 +164,5 @@ module.exports = {
   getLogin,
   signup,
   login,
-  logout
+  logout,
 };
