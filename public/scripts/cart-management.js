@@ -33,4 +33,6 @@ const addToCart = async () => {
   cartBadgeElement.textContent = responseData.newTotalItems;
 };
 
+
+
 addToCartButtonElement.addEventListener('click', addToCart);

@@ -19,6 +19,7 @@ const productsRoutes = require('./routes/products-routes');
 const baseRoutes = require('./routes/base-routes');
 const adminRoutes = require('./routes/admin-routes');
 const cartRoutes = require('./routes/cart-routes');
+const ordersRoutes = require('./routes/orders-routes')
 
 
 // express
@@ -48,8 +49,9 @@ app.use(baseRoutes);
 app.use(authRoutes);
 app.use(productsRoutes);
 app.use('/cart', cartRoutes);
-// admin with protect
+// admin and order with protect
 app.use(protectAdminMiddleware);
+app.use('/orders', ordersRoutes)
 app.use('/admin', adminRoutes);
 
 
